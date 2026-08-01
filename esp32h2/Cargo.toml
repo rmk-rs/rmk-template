@@ -3,15 +3,15 @@ name = "{{ project_name }}"
 version = "0.1.0"
 authors = ["Haobo Gu <haobogu@outlook.com>"]
 description = "Keyboard firmware written in Rust"
-homepage = "https://github.com/haobogu/rmk"
-repository = "https://github.com/haobogu/rmk"
+homepage = "https://github.com/rmk-rs/rmk"
+repository = "https://github.com/rmk-rs/rmk"
 readme = "README.md"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
 # TODO: switch to crates-io version when it's released.
-rmk = { git = "https://github.com/HaoboGu/rmk", rev = "9a740762d80b208c2180cfd2dbde7ed889339d3e", default-features = false, features = [
+rmk = { git = "https://github.com/rmk-rs/rmk", rev = "9a740762d80b208c2180cfd2dbde7ed889339d3e", default-features = false, features = [
     "esp32h2_ble",
     "log",
     "storage",
