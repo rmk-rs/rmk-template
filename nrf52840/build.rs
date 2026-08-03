@@ -11,7 +11,7 @@
 //! The build script also sets the linker flags to tell it which link script to use.
 
 use std::fs::File;
-use std::io::{Read, Write};
+use std::io::Read;
 use std::path::{Path, PathBuf};
 use std::{env, fs};
 
@@ -26,17 +26,17 @@ fn main() {
     // Put `memory.x` in our output directory and ensure it's
     // on the linker search path.
     let out = &PathBuf::from(env::var_os("OUT_DIR").unwrap());
-    File::create(out.join("memory.x"))
-        .unwrap()
-        .write_all(include_bytes!("memory.x"))
-        .unwrap();
-    println!("cargo:rustc-link-search={}", out.display());
 
-    // By default, Cargo will re-run a build script whenever
-    // any file in the project changes. By specifying `memory.x`
-    // here, we ensure the build script is only re-run when
-    // `memory.x` is changed.
-    println!("cargo:rerun-if-changed=memory.x");
+    if Path::new("rmk-boot.x").exists() {
+        fs::write(out.join("rmk-boot.x"), fs::read("rmk-boot.x").unwrap()).unwrap();
+        fs::write(out.join("memory.x"), "INCLUDE rmk-boot.x\n").unwrap();
+        println!("cargo:rustc-link-search={}", out.display());
+        println!("cargo:rerun-if-changed=rmk-boot.x");
+    } else if Path::new("memory.x").exists() {
+        fs::write(out.join("memory.x"), fs::read("memory.x").unwrap()).unwrap();
+        println!("cargo:rustc-link-search={}", out.display());
+        println!("cargo:rerun-if-changed=memory.x");
+    }
 
     println!("cargo:rerun-if-changed=keyboard.toml");
 
