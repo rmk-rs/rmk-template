@@ -10,26 +10,25 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-rmk = { version = "0.8", features = ["controller"]}
+# TODO: switch to the crates-io version when the next RMK release is out.
+rmk = { git = "https://github.com/rmk-rs/rmk", rev = "36982fdc737619b92b8adc48f3de03baa8f38f0f", features = ["async_matrix"] }
 cortex-m = { version = "0.7.7", features = ['critical-section-single-core'] }
 cortex-m-rt = "0.7.5"
-embassy-embedded-hal = "0.5.0"
 embassy-time = { version = "0.5", features = ["tick-hz-32_768"] }
-embassy-stm32 = { version = "0.4", features = [
+embassy-stm32 = { version = "0.6", features = [
     "{{ chip_name }}",
     "memory-x",
     "exti",
     "time-driver-any",
 ] }
-embassy-executor = { version = "0.9", features = [
-    "arch-cortex-m",
+embassy-executor = { version = "0.10", features = [
+    "platform-cortex-m",
     "executor-thread",
 ] }
 static_cell = "2"
-defmt = "1.0"
-defmt-rtt = "1.0"
-panic-probe = { version = "1.0" }
-embassy-usb-driver = "=0.2.0"
+defmt = "1"
+defmt-rtt = "1"
+panic-probe = { version = "1" }
 
 [build-dependencies]
 xz2 = "0.1.7"
