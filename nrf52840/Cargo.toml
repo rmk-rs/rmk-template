@@ -11,7 +11,7 @@ license = "MIT OR Apache-2.0"
 
 [dependencies]
 # TODO: switch to the crates-io version when the next RMK release is out.
-rmk = { git = "https://github.com/rmk-rs/rmk", rev = "36982fdc737619b92b8adc48f3de03baa8f38f0f", features = ["async_matrix", "nrf52840_ble", "adafruit_bl"] }
+rmk = { git = "https://github.com/rmk-rs/rmk", rev = "82649d6df2b2db01f3f3fc8e2d0c1bcfd002d68e", features = ["async_matrix", "nrf52840_ble", "adafruit_bl"] }
 nrf-sdc = { git = "https://github.com/alexmoon/nrf-sdc", rev = "f54b6389ffa2750d4d3a4f5435660cb66b47e51a", features = [
     "defmt",
     "peripheral",
