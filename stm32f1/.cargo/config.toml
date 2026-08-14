@@ -2,9 +2,15 @@
 runner = "probe-rs run --chip {{ chip_name }}"
 linker = "flip-link"
 
+# Nightly-only size optimization; ignored on the stable toolchain this template
+# defaults to. Rebuilding `core` with the immediate-abort panic strategy drops
+# the panic formatting machinery — measured at ~4.6KB on this template.
+# To use it, switch to nightly and build with:
+#   RUSTFLAGS="-Zunstable-options -Cpanic=immediate-abort" cargo build --release
+# (`panic = "immediate-abort"` in Cargo.toml is the other way to spell it, but
+# it needs `cargo-features = ["panic-immediate-abort"]`, which stable rejects.)
 [unstable]
 build-std = ["core"]
-build-std-features = ["panic_immediate_abort"]
 
 [build]
 # TODO: Pick ONE of these default compilation targets
