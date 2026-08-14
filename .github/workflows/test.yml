@@ -15,16 +15,25 @@ jobs:
   build_templates:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        template_name:
-          - rp2040
-          - nrf52840
-          - nrf52832
-          - stm32f103cb
-          - stm32h7b0vb
-          - esp32c3
-          - esp32c6
-          - esp32h2
+        # `chip` is listed separately because it is not always the template name:
+        # `pico_w` is a board, and `stm32`/`stm32f1` are chip-agnostic fallback
+        # templates that only pick a concrete chip at generation time.
+        include:
+          - { template: rp2040, chip: rp2040 }
+          - { template: pico_w, chip: pico_w }
+          - { template: nrf52840, chip: nrf52840 }
+          - { template: nrf52832, chip: nrf52832 }
+          - { template: stm32f103cb, chip: stm32f103cb }
+          - { template: stm32h7b0vb, chip: stm32h7b0vb }
+          # stm32f103c8's 64KB of flash cannot hold a vial + storage build, so
+          # exercise the F1 fallback against a 128KB part.
+          - { template: stm32f1, chip: stm32f103rb }
+          - { template: stm32, chip: stm32f411ce }
+          - { template: esp32c3, chip: esp32c3 }
+          - { template: esp32c6, chip: esp32c6 }
+          - { template: esp32h2, chip: esp32h2 }
     steps:
       - uses: cargo-bins/cargo-binstall@main
       - uses: actions/checkout@v3
@@ -33,17 +42,18 @@ jobs:
       - name: Install target
         run: rustup default stable && rustup target add thumbv6m-none-eabi thumbv7em-none-eabihf thumbv7m-none-eabi riscv32imac-unknown-none-elf riscv32imc-unknown-none-elf
       - name: Create project
-        run: rmkit init --project-name ${{ matrix.template_name }}_test --chip ${{ matrix.template_name }} --split false --local-path ${{ matrix.template_name }}
+        run: rmkit init --project-name ${{ matrix.template }}_test --chip ${{ matrix.chip }} --split false --local-path ${{ matrix.template }}
       - name: Build template
-        working-directory: ${{ matrix.template_name }}_test
+        working-directory: ${{ matrix.template }}_test
         run: cargo update && cargo build --release
       - name: Build uf2
-        working-directory: ${{ matrix.template_name }}_test
+        working-directory: ${{ matrix.template }}_test
         run: cargo make uf2 --release
 
   build_split_templates:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         template_name:
           - rp2040
