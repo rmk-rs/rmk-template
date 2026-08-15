@@ -24,6 +24,7 @@ jobs:
           - { template: rp2040, chip: rp2040 }
           - { template: pico_w, chip: pico_w }
           - { template: nrf52840, chip: nrf52840 }
+          - { template: nrf52833, chip: nrf52833 }
           - { template: nrf52832, chip: nrf52832 }
           - { template: stm32f103cb, chip: stm32f103cb }
           - { template: stm32h7b0vb, chip: stm32h7b0vb }
@@ -102,10 +103,6 @@ jobs:
 
   build_esp32s3_split_template:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        template_name:
-          - esp32s3_split
     steps:
       - uses: esp-rs/xtensa-toolchain@v1.5
         with:
@@ -117,7 +114,7 @@ jobs:
       - name: Install esp toolchain
         run: espup install
       - name: Create project
-        run: rmkit init --project-name ${{ matrix.template_name }}_split_test --chip ${{ matrix.template_name }} --split true --local-path ${{ matrix.template_name }}
+        run: rmkit init --project-name esp32s3_split_test --chip esp32s3 --split true --local-path esp32s3_split
       - name: Build template
-        working-directory: ${{ matrix.template_name }}_split_test
-        run: . /home/runner/export-esp.sh && cargo update && cargo +esp build --release 
+        working-directory: esp32s3_split_test
+        run: . /home/runner/export-esp.sh && cargo update && cargo +esp build --release
