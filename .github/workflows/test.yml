@@ -26,10 +26,10 @@ jobs:
           - { template: nrf52840, chip: nrf52840 }
           - { template: nrf52833, chip: nrf52833 }
           - { template: nrf52832, chip: nrf52832 }
-          - { template: stm32f103cb, chip: stm32f103cb }
           - { template: stm32h7b0vb, chip: stm32h7b0vb }
           # stm32f103c8's 64KB of flash cannot hold a vial + storage build, so
-          # exercise the F1 fallback against a 128KB part.
+          # exercise the F1 fallback against 128KB parts.
+          - { template: stm32f1, chip: stm32f103cb }
           - { template: stm32f1, chip: stm32f103rb }
           - { template: stm32, chip: stm32f411ce }
           - { template: esp32c3, chip: esp32c3 }
