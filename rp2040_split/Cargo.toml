@@ -10,8 +10,7 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-# TODO: switch to the crates-io version when the next RMK release is out.
-rmk = { git = "https://github.com/rmk-rs/rmk", rev = "82649d6df2b2db01f3f3fc8e2d0c1bcfd002d68e", features = ["split", "rp2040"] }
+rmk = { git = "https://github.com/rmk-rs/rmk", rev = "57f5b0cecd58ad1893234f5d23ad02be90d00b0c", features = ["split", "rp2040"] }
 embassy-time = { version = "0.5", features = ["defmt"] }
 embassy-rp = { version = "0.10", features = [
     "rp2040",
@@ -37,7 +36,6 @@ xz2 = "0.1.7"
 json = "0.12"
 const-gen = "1.6"
 
-# Split keyboard example
 [[bin]]
 name = "central"
 path = "src/central.rs"
@@ -47,7 +45,7 @@ name = "peripheral"
 path = "src/peripheral.rs"
 
 [profile.dev]
-codegen-units = 1      # better optimizations
+codegen-units = 1
 debug = true
 opt-level = 1
 overflow-checks = true
@@ -55,8 +53,8 @@ lto = false
 panic = 'unwind'
 
 [profile.release]
-codegen-units = 1       # better optimizations
-debug = true            # no overhead for bare-metal
-opt-level = "z"         # optimize for binary size
+codegen-units = 1
+debug = true
+opt-level = "z"
 overflow-checks = false
 lto = "fat"

@@ -10,8 +10,7 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-# TODO: switch to the crates-io version when the next RMK release is out.
-rmk = { git = "https://github.com/rmk-rs/rmk", rev = "82649d6df2b2db01f3f3fc8e2d0c1bcfd002d68e", features = [] }
+rmk = { git = "https://github.com/rmk-rs/rmk", rev = "57f5b0cecd58ad1893234f5d23ad02be90d00b0c", features = [] }
 cortex-m = { version = "0.7.7", features = ['critical-section-single-core'] }
 cortex-m-rt = "0.7.5"
 embassy-time = { version = "0.5", features = ["tick-hz-32_768", "defmt"] }
@@ -43,7 +42,7 @@ test = false
 bench = false
 
 [profile.dev]
-codegen-units = 1      # better optimizations
+codegen-units = 1
 debug = true
 opt-level = 1
 overflow-checks = true
@@ -51,8 +50,8 @@ lto = false
 panic = 'unwind'
 
 [profile.release]
-codegen-units = 1       # better optimizations
-debug = true            # no overhead for bare-metal
-opt-level = "z"         # optimize for binary size
+codegen-units = 1
+debug = true
+opt-level = "z"
 overflow-checks = false
 lto = "fat"
