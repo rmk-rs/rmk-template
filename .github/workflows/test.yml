@@ -42,6 +42,11 @@ jobs:
         run: cargo binstall cargo-make rmkit flip-link -y
       - name: Install target
         run: rustup default stable && rustup target add thumbv6m-none-eabi thumbv7em-none-eabihf thumbv7m-none-eabi riscv32imac-unknown-none-elf riscv32imc-unknown-none-elf
+      # RMK 0.9's nRF BLE stack pulls in p256-cortex-m4-sys, whose build script
+      # compiles C with the ARM GNU toolchain.
+      - name: Install ARM GNU toolchain
+        if: startsWith(matrix.chip, 'nrf')
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi
       - name: Create project
         run: rmkit init --project-name ${{ matrix.template }}_test --chip ${{ matrix.chip }} --split false --local-path ${{ matrix.template }}
       - name: Build template
@@ -70,6 +75,11 @@ jobs:
         run: cargo binstall cargo-make rmkit flip-link -y
       - name: Install target
         run: rustup default stable && rustup target add thumbv6m-none-eabi thumbv7em-none-eabihf thumbv7m-none-eabi
+      # RMK 0.9's nRF BLE stack pulls in p256-cortex-m4-sys, whose build script
+      # compiles C with the ARM GNU toolchain.
+      - name: Install ARM GNU toolchain
+        if: startsWith(matrix.template_name, 'nrf')
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi
       - name: Create project
         run: rmkit init --project-name ${{ matrix.template_name }}_split_test --chip ${{ matrix.template_name }} --split true --local-path ${{ matrix.template_name }}_split
       - name: Build template
