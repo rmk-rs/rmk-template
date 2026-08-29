@@ -10,7 +10,7 @@ edition = "2024"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-rmk = { git = "https://github.com/rmk-rs/rmk", rev = "57f5b0cecd58ad1893234f5d23ad02be90d00b0c", default-features = false, features = [
+rmk = { version = "0.9", default-features = false, features = [
     "esp32h2_ble",
     "log",
     "split",
